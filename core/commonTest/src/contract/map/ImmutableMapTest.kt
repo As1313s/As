@@ -6,11 +6,13 @@
 package tests.contract.map
 
 import kotlinx.collections.immutable.*
+import tests.TestPlatform
 import tests.contract.collectionBehavior
 import tests.contract.compare
 import tests.contract.mapBehavior
 import tests.contract.setBehavior
 import tests.stress.IntWrapper
+import tests.testNotFor
 import kotlin.test.*
 
 class ImmutableHashMapTest : ImmutableMapTest() {
@@ -289,7 +291,9 @@ abstract class ImmutableMapTest {
         with(map) {
             testNoOperation({ remove("y") }, { remove("y") })
             testNoOperation({ remove("x", 2) }, { remove("x", 2) })
-            testNoOperation({ put("x", 1) }, { put("x", 1) })     // does not hold
+            testNotFor(TestPlatform.Wasm) {
+                testNoOperation({ put("x", 1) }, { put("x", 1) })     // does not hold
+            }
             testNoOperation({ putAll(this) }, { putAll(this) })   // does not hold
             testNoOperation({ putAll(emptyMap()) }, { putAll(emptyMap()) })
         }

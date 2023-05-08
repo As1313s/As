@@ -3,7 +3,7 @@ import org.gradle.jvm.tasks.Jar
 
 plugins {
     id("kotlin-multiplatform")
-    id("org.jetbrains.kotlinx.benchmark") version "0.4.1"
+    id("org.jetbrains.kotlinx.benchmark") version "0.4.7"
 }
 
 
@@ -25,6 +25,12 @@ kotlin {
     }
 
     js {
+        nodejs {
+
+        }
+    }
+
+    wasm {
         nodejs {
 
         }
@@ -93,6 +99,7 @@ benchmark {
             jmhVersion = "1.21"
         }
         register("js")
+        register("wasm")
         register("native")
         register("macosX64")
         register("linuxX64")

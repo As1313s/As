@@ -25,12 +25,17 @@ public expect fun assertTypeEquals(expected: Any?, actual: Any?)
 public enum class TestPlatform {
     JVM,
     JS,
-    Native
+    Native,
+    Wasm,
 }
 public expect val currentPlatform: TestPlatform
 
 public inline fun testOn(platform: TestPlatform, action: () -> Unit) {
     if (platform == currentPlatform) action()
+}
+
+public inline fun testNotFor(platform: TestPlatform, action: () -> Unit) {
+    if (platform != currentPlatform) action()
 }
 
 @ThreadLocal

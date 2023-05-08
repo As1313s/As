@@ -44,7 +44,7 @@ kotlin {
         }
     }
 
-    js(BOTH) {
+    js(IR) {
         nodejs {
             testTask {
                 useMocha {
@@ -57,6 +57,16 @@ kotlin {
                 sourceMap = true
                 moduleKind = "umd"
                 metaInfo = true
+            }
+        }
+    }
+
+    wasm {
+        nodejs {
+            testTask {
+                useMocha {
+                    timeout = "30000"
+                }
             }
         }
     }
@@ -106,6 +116,18 @@ kotlin {
         val jsTest by getting {
             dependencies {
                 api("org.jetbrains.kotlin:kotlin-test-js")
+            }
+        }
+
+        val wasmMain by getting {
+            dependencies {
+                api("org.jetbrains.kotlin:kotlin-stdlib-wasm")
+            }
+        }
+
+        val wasmTest by getting {
+            dependencies {
+                api("org.jetbrains.kotlin:kotlin-test-wasm")
             }
         }
 
