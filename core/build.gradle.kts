@@ -1,4 +1,5 @@
 import kotlinx.team.infra.mavenPublicationsPom
+import java.net.URI
 
 plugins {
     id("kotlin-multiplatform")
@@ -143,5 +144,21 @@ kotlin {
 tasks {
     named("jvmTest", Test::class) {
         maxHeapSize = "1024m"
+    }
+}
+
+fun Project.getSensitiveProperty(name: String): String? {
+    return project.findProperty(name) as? String ?: System.getenv(name)
+}
+
+publishing {
+    repositories {
+        maven {
+            url = URI("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
+            credentials {
+                username = project.getSensitiveProperty("kotlin.space.packages.wasm.user")
+                password = project.getSensitiveProperty("kotlin.space.packages.wasm.secret")
+            }
+        }
     }
 }
